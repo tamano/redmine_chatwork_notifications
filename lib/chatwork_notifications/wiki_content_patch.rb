@@ -20,7 +20,8 @@ module ChatworkNotifications
         title = l("chatwork.wiki_created_notify_title", url: url, project: page.project.name, title: page.pretty_title, user: self.author.name)
         description = l("chatwork.wiki_created_notify_description", comment: comment) if comment
 
-        Helpers.put_chatwork_message [title, description].compact.join("\n")
+        project_id = Setting.plugin_redmine_chatwork_notifications[:room_id][page.project.id.to_s]
+        Helpers.put_chatwork_message project_id, [title, description].compact.join("\n") unless project_id.empty?
       end
     end
 
@@ -33,7 +34,8 @@ module ChatworkNotifications
         title = l("chatwork.wiki_updated_notify_title", url: url, project: page.project.name, title: page.pretty_title, user: self.author.name)
         description = l("chatwork.wiki_updated_notify_description", comment: comment) if comment
 
-        Helpers.put_chatwork_message [title, description].compact.join("\n")
+        project_id = Setting.plugin_redmine_chatwork_notifications[:room_id][page.project.id.to_s]
+        Helpers.put_chatwork_message project_id, [title, description].compact.join("\n") unless project_id.empty?
       end
     end
   end
