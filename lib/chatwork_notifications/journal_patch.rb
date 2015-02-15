@@ -18,7 +18,8 @@ module ChatworkNotifications
         title = l("chatwork.issue_updated_notify_title", id: self.issue.id, url: url, title: self.issue.subject, user: self.user.name)
         description = l("chatwork.issue_updated_notify_description", comment: notes) if notes
 
-        Helpers.put_chatwork_message [title, description.presence].compact.join("\n#{"-"*40}\n")
+        project_id = Setting.plugin_redmine_chatwork_notifications[:room_id][self.issue.project_id.to_s]
+        Helpers.put_chatwork_message project_id, [title, description.presence].compact.join("\n#{"-"*40}\n") unless project_id.empty?
       end
     end 
   end
