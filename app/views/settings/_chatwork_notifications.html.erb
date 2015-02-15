@@ -1,19 +1,23 @@
 <%
   client = ChatworkNotifications::Chatwork.new ChatworkNotifications::Helpers.options[:api_token]
   rooms = client.rooms rescue {}
+
+  projects = Project.all
 %>
 
 <div class="chatwork_notifications">
   <fieldset>
     <legend><%= l("chatwork.settings") %></legend>
-    <p>
-    <label for="settings_room_id"><%= l("chatwork.room") %></label>
-    <% if rooms.blank? %>
-      <span style="color: red;font-weight: bold;"><%= l("chatwork.invalid_token") %></span>
-    <% else %>
-      <%= select_tag 'settings[room_id]', options_for_select({nil => l("chatwork.label_room")}.merge(rooms).invert, @settings['room_id']) %>
-    <% end %>
-    </p>
+      <% projects.each do |prj| %>
+        <p>
+          <% if rooms.blank? %>
+            <span style="color: red;font-weight: bold;"><%= l("chatwork.invalid_token") %></span>
+          <% else %>
+            <label for="settings_room_id_#{prj.id}"><%= prj.name %></label>
+            <%= select_tag "settings[room_id][#{prj.id}]", options_for_select({nil => l("chatwork.label_room")}.merge(rooms).invert, @settings['room_id'][prj.id.to_s]) %>
+          <% end %>
+        </p>
+      <% end %>
   </fieldset>
 
   <fieldset>
