@@ -2,7 +2,7 @@
   client = ChatworkNotifications::Chatwork.new ChatworkNotifications::Helpers.options[:api_token]
   rooms = client.rooms rescue {}
 
-  projects = Project.all
+  projects = Project.where('status =1')
 %>
 
 <div class="chatwork_notifications">
