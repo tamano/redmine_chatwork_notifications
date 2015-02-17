@@ -14,7 +14,7 @@
             <span style="color: red;font-weight: bold;"><%= l("chatwork.invalid_token") %></span>
           <% else %>
             <label for="settings_room_id_#{prj.id}"><%= prj.name %></label>
-            <%= select_tag "settings[room_id][#{prj.id}]", options_for_select({nil => l("chatwork.label_room")}.merge(rooms).invert, @settings['room_id'][prj.id.to_s]) %>
+            <%= select_tag "settings[room_id][#{prj.id}]", options_for_select({nil => l("chatwork.label_room")}.merge(rooms).invert, @settings['room_id'].present? ? @settings['room_id'][prj.id.to_s] : '') %>
           <% end %>
         </p>
       <% end %>
